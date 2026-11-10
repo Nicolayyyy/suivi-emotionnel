@@ -1,40 +1,104 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b1220"><title>Mon suivi personnel</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>Mon suivi personnel</title>
 <style>
-:root{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#f8fafc;background:#0b1220}*{box-sizing:border-box}body{margin:0;padding:22px 14px 40px;display:flex;justify-content:center}main{width:min(100%,510px)}h1{font-size:27px;margin:8px 0}p{color:#bdc9dc;line-height:1.5}.panel{background:#172235;border:1px solid #344156;border-radius:22px;padding:20px;margin:16px 0}.panel h2{font-size:19px;margin:0 0 10px}.muted{color:#aebcd0;font-size:13px}.scale{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin:14px 0}.scale button{border:1px solid #43536a;border-radius:11px;background:#253349;color:white;font-size:16px;padding:13px 0;cursor:pointer}.scale button.active{background:#60a5fa;color:#07101e;border-color:#93c5fd;font-weight:800}button:focus-visible,textarea:focus-visible{outline:3px solid #fff;outline-offset:2px}label{display:block;font-weight:600;margin:15px 0 8px}textarea{width:100%;min-height:78px;border-radius:12px;border:1px solid #46566d;background:#0e192a;color:white;font:inherit;padding:12px;resize:vertical}.belief{padding:16px 0;border-bottom:1px solid #344156}.belief:last-child{border-bottom:0;padding-bottom:0}.belief:first-child{padding-top:4px}.belief-title{font-size:16px;font-weight:650}.history{font-size:13px;color:#aebcd0;margin-top:7px}.send{width:100%;border:0;border-radius:13px;background:#60a5fa;color:#08111f;padding:17px;font-size:17px;font-weight:750;margin-top:12px;cursor:pointer}.send:disabled{opacity:.5;cursor:not-allowed}#status{min-height:28px;font-size:14px}#status.error{color:#fda4af}#status.ok{color:#86efac}[hidden]{display:none!important}.nav{display:flex;gap:8px;margin-top:18px}.nav a{flex:1;text-align:center;padding:11px 6px;border:1px solid #43536a;border-radius:12px;color:#bdc9dc;text-decoration:none;font-size:13px}.nav a.selected{background:#253349;color:#fff;border-color:#60a5fa}
+:root{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#f8fafc;background:#0b1220;color-scheme:dark}*{box-sizing:border-box}body{margin:0;padding:22px 14px 40px;display:flex;justify-content:center}main{width:min(100%,510px)}h1{font-size:27px;margin:8px 0}p{color:#bdc9dc;line-height:1.5}.panel{background:#172235;border:1px solid #344156;border-radius:22px;padding:20px;margin:16px 0}.panel h2{font-size:19px;margin:0 0 10px}.muted{color:#aebcd0;font-size:13px}.scale{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin:14px 0}.scale button{border:1px solid #43536a;border-radius:11px;background:#253349;color:white;font-size:16px;padding:13px 0;cursor:pointer;min-height:48px}.scale button.active{background:#60a5fa;color:#07101e;border-color:#93c5fd;font-weight:800}button:focus-visible,textarea:focus-visible{outline:3px solid #fff;outline-offset:2px}label{display:block;font-weight:600;margin:15px 0 8px}textarea{width:100%;min-height:78px;border-radius:12px;border:1px solid #46566d;background:#0e192a;color:white;font:inherit;padding:12px;resize:vertical}.belief{padding:16px 0;border-bottom:1px solid #344156}.belief:last-child{border-bottom:0;padding-bottom:0}.belief:first-child{padding-top:4px}.belief-title{font-size:16px;font-weight:650}.history{font-size:13px;color:#aebcd0;margin-top:7px}.send{width:100%;border:0;border-radius:13px;background:#60a5fa;color:#08111f;padding:17px;font-size:17px;font-weight:750;margin-top:12px;cursor:pointer}.send:disabled{opacity:.5;cursor:not-allowed}#status{min-height:28px;font-size:14px}#status.error{color:#fda4af}#status.ok{color:#86efac}[hidden]{display:none!important}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#93c5fd;font-weight:750}.footnote{font-size:12px}
 </style>
 </head>
-<body><main>
-<h1 id="page-title">Mon suivi personnel</h1><p id="intro"></p>
-<nav class="nav" aria-label="Choisir le suivi"><a id="emotion-link" href="?suivi=emotion">❤️ Émotions</a><a id="belief-link" href="?suivi=croyances">🧠 Croyances</a></nav>
-<section class="panel" id="emotion-section" hidden><h2>Mon émotion</h2><div class="muted">De −5 (très mal) à +5 (très bien)</div><div class="scale" id="emotion" role="group" aria-label="Émotion"></div><label for="context">Contexte <span class="muted">(facultatif)</span></label><textarea id="context" maxlength="300" placeholder="Que fais-tu en ce moment ?"></textarea></section>
-<section class="panel" id="belief-section" hidden><h2>Mes croyances</h2><p class="muted">0 = Je n'y crois pas du tout · 5 = J'y crois totalement. Évalue chaque phrase indépendamment.</p><div id="beliefs"></div></section>
-<button class="send" id="send" disabled>Enregistrer</button><p id="status" role="status" aria-live="polite"></p><p class="muted" id="footer-note"></p>
+<body>
+<main>
+<div class="eyebrow" id="eyebrow">Suivi émotionnel</div>
+<h1 id="page-title">Comment te sens-tu ?</h1>
+<p id="intro">Note ton état émotionnel à cet instant.</p>
+<section class="panel" id="emotion-panel">
+<h2>Mon émotion</h2><div class="muted">De −5 (très mal) à +5 (très bien)</div>
+<div class="scale" id="emotion" role="group" aria-label="Émotion"></div>
+<label for="context">Contexte <span class="muted">(facultatif)</span></label>
+<textarea id="context" maxlength="300" placeholder="Que fais-tu en ce moment ?"></textarea>
+</section>
+<section class="panel" id="beliefs-panel" hidden>
+<h2>Mes trois croyances</h2>
+<p class="muted">0 = Je n'y crois pas du tout · 5 = J'y crois totalement. Une seule évaluation quotidienne, idéalement à 20 h.</p>
+<div id="beliefs"></div>
+</section>
+<button class="send" id="send" type="button" disabled>Enregistrer mon émotion</button>
+<p id="status" role="status" aria-live="polite"></p>
+<p class="muted footnote" id="footnote">L'envoi est transmis à Google Sheets. Cette page ne peut pas confirmer directement que la ligne a été enregistrée.</p>
 </main>
-<iframe name="submit_frame" hidden title="Transmission"></iframe>
+<iframe name="submit_frame" id="submit_frame" hidden title="Transmission des réponses"></iframe>
 <form id="submit_form" target="submit_frame" method="POST" hidden>
-<input name="suivi" id="form_mode"><input name="note" id="form_note"><input name="contexte" id="form_context"><input name="belief_1" id="form_b1"><input name="belief_2" id="form_b2"><input name="belief_3" id="form_b3">
+<input type="hidden" name="suivi" id="form_suivi">
+<input type="hidden" name="note" id="form_note">
+<input type="hidden" name="contexte" id="form_context">
+<input type="hidden" name="belief_1" id="form_b1">
+<input type="hidden" name="belief_2" id="form_b2">
+<input type="hidden" name="belief_3" id="form_b3">
 </form>
 <script>
+'use strict';
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbzVGiD7ZTManLuZo2z5XxdFjq2mCpKFfU_XM-J1J6PKbwZbwXbYhpxLdvxyiAwlQywjfA/exec';
 const BELIEFS=['Je ne peux pas réussir','Je ne suis pas capable de réussir',"Faire de l'argent, c'est compliqué"];
-const params=new URLSearchParams(location.search);
-const mode=params.get('suivi')==='croyances'?'croyances':'emotion';
+const mode=new URLSearchParams(window.location.search).get('suivi')==='croyances'?'croyances':'emotion';
 const values={emotion:null,beliefs:[null,null,null]};
-const send=document.getElementById('send'),status=document.getElementById('status');
-document.getElementById('emotion-section').hidden=mode!=='emotion';
-document.getElementById('belief-section').hidden=mode!=='croyances';
-document.getElementById(mode==='emotion'?'emotion-link':'belief-link').classList.add('selected');
-document.getElementById('page-title').textContent=mode==='emotion'?'Mon suivi émotionnel':'Mon suivi des croyances';
-document.getElementById('intro').textContent=mode==='emotion'?'Comment te sens-tu en ce moment ?':'À quel point crois-tu chacune de ces phrases aujourd’hui ?';
-send.textContent=mode==='emotion'?'Enregistrer mon émotion':'Enregistrer mes 3 croyances';
-document.getElementById('footer-note').textContent=mode==='croyances'?'Les notes de la veille seront affichées après la connexion de la lecture sécurisée.':'Ton émotion est enregistrée dans ton tableau de suivi habituel.';
-function update(){send.disabled=mode==='emotion'?values.emotion===null:values.beliefs.some(v=>v===null)}
-function scale(container,min,max,callback){for(let n=min;n<=max;n++){const b=document.createElement('button');b.type='button';b.textContent=n>0&&min<0?'+'+n:String(n);b.setAttribute('aria-pressed','false');b.onclick=()=>{for(const x of container.children){x.classList.remove('active');x.setAttribute('aria-pressed','false')}b.classList.add('active');b.setAttribute('aria-pressed','true');callback(n);update()};container.appendChild(b)}}
+const send=document.getElementById('send');
+const status=document.getElementById('status');
+const isBeliefs=mode==='croyances';
+document.getElementById('emotion-panel').hidden=isBeliefs;
+document.getElementById('beliefs-panel').hidden=!isBeliefs;
+document.getElementById('eyebrow').textContent=isBeliefs?'Suivi quotidien · 20 h':'Suivi émotionnel';
+document.getElementById('page-title').textContent=isBeliefs?'Où en sont tes croyances ?':'Comment te sens-tu ?';
+document.getElementById('intro').textContent=isBeliefs?'Évalue chacune de tes trois croyances, une fois par jour.':'Note ton état émotionnel à cet instant.';
+send.textContent=isBeliefs?'Enregistrer mes 3 croyances':'Enregistrer mon émotion';
+function update(){send.disabled=isBeliefs?values.beliefs.some(v=>v===null):values.emotion===null;}
+function scale(container,min,max,callback){
+ for(let n=min;n<=max;n++){
+  const b=document.createElement('button');b.type='button';
+  b.textContent=n>0&&min<0?'+'+n:String(n);
+  b.setAttribute('aria-pressed','false');
+  b.onclick=()=>{
+   for(const x of container.children){x.classList.remove('active');x.setAttribute('aria-pressed','false');}
+   b.classList.add('active');b.setAttribute('aria-pressed','true');
+   callback(n);update();
+  };
+  container.appendChild(b);
+ }
+}
 scale(document.getElementById('emotion'),-5,5,n=>values.emotion=n);
-const wrap=document.getElementById('beliefs');BELIEFS.forEach((name,i)=>{const block=document.createElement('div');block.className='belief';const title=document.createElement('div');title.className='belief-title';title.textContent='« '+name+' »';const history=document.createElement('div');history.className='history';history.textContent='Note de la veille : non disponible pour le moment';const buttons=document.createElement('div');buttons.className='scale';buttons.setAttribute('role','group');buttons.setAttribute('aria-label',name);block.append(title,history,buttons);wrap.appendChild(block);scale(buttons,0,5,n=>values.beliefs[i]=n)});
-send.onclick=()=>{if(send.disabled)return;if(!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(SCRIPT_URL)){status.className='error';status.textContent='URL Apps Script incorrecte.';return}const form=document.getElementById('submit_form');form.action=SCRIPT_URL;document.getElementById('form_mode').value=mode;document.getElementById('form_note').value=mode==='emotion'?values.emotion:'';document.getElementById('form_context').value=mode==='emotion'?document.getElementById('context').value:'';values.beliefs.forEach((v,i)=>document.getElementById('form_b'+(i+1)).value=mode==='croyances'?v:'');send.disabled=true;status.className='';status.textContent='Envoi demandé…';form.submit();setTimeout(()=>{status.textContent="Demande envoyée. Vérifie la nouvelle ligne dans Google Sheets avant de réessayer. L'envoi ne peut pas être confirmé depuis cette page."},2000)};
-</script></body></html>
+const wrap=document.getElementById('beliefs');
+BELIEFS.forEach((name,i)=>{
+ const block=document.createElement('div');block.className='belief';
+ const title=document.createElement('div');title.className='belief-title';title.textContent='« '+name+' »';
+ const history=document.createElement('div');history.className='history';
+ history.textContent='Note de la veille : indisponible (lecture sécurisée à connecter)';
+ const buttons=document.createElement('div');buttons.className='scale';
+ buttons.setAttribute('role','group');buttons.setAttribute('aria-label',name);
+ block.append(title,history,buttons);wrap.appendChild(block);
+ scale(buttons,0,5,n=>values.beliefs[i]=n);
+});
+update();
+send.onclick=()=>{
+ if(send.disabled)return;
+ if(!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(SCRIPT_URL)){
+  status.className='error';status.textContent='URL Apps Script invalide.';return;
+ }
+ const form=document.getElementById('submit_form');form.action=SCRIPT_URL;
+ document.getElementById('form_suivi').value=mode;
+ // Champs inutilisés explicitement vides : chaque mode s'enregistre indépendamment.
+ document.getElementById('form_note').value=isBeliefs?'':String(values.emotion);
+ document.getElementById('form_context').value=isBeliefs?'':document.getElementById('context').value;
+ values.beliefs.forEach((v,i)=>document.getElementById('form_b'+(i+1)).value=isBeliefs?String(v):'');
+ send.disabled=true;status.className='';status.textContent='Envoi demandé…';
+ try{
+  form.submit();
+  setTimeout(()=>{
+   status.textContent='Demande envoyée. Vérifie la nouvelle saisie dans Google Sheets avant de réessayer : la confirmation du serveur n’est pas accessible depuis cette page.';
+  },1800);
+ }catch(err){status.className='error';status.textContent="Impossible d'envoyer le formulaire. Réessaie.";update();}
+};
+</script>
+</body>
+</html>
